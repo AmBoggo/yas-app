@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "YasApp"
-include(":app")
+include ':app'
