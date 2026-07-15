@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.YAS" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/roxo_pastel</item>
+        <item name="colorPrimaryVariant">@color/roxo_escuro</item>
+        <item name="colorOnPrimary">@color/branco</item>
+        <item name="colorSecondary">@color/terracota</item>
+        <item name="android:windowBackground">@color/fundo</item>
+    </style>
+</resources>

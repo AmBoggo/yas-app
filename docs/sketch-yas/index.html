@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>YAS — Visual Identity</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #F8F6F1;
+      color: #2D2B2B;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 420px;
+      width: 100%;
+    }
+
+    /* ── Header ── */
+
+    .watercolor-bar {
+      height: 4px;
+      background: linear-gradient(90deg, #4F46E5 0%, #818CF8 40%, #E8A87C 70%, #F3C4A5 100%);
+      border-radius: 2px;
+      margin-bottom: 32px;
+      opacity: 0.7;
+    }
+
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+    }
+
+    .app-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #4F46E5;
+      letter-spacing: -0.5px;
+    }
+
+    .app-logo span {
+      color: #E8A87C;
+    }
+
+    .app-logo-sub {
+      font-size: 11px;
+      font-weight: 400;
+      color: #6B7280;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-top: -2px;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 16px;
+    }
+
+    .header-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      cursor: default;
+    }
+
+    /* ── Search ── */
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      background: #FFFFFF;
+      border: 1px solid #E5E0D8;
+      border-radius: 14px;
+      padding: 12px 16px;
+      margin-bottom: 24px;
+      gap: 10px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    }
+
+    .search-box .icon {
+      color: #9CA3AF;
+      font-size: 16px;
+    }
+
+    .search-box input {
+      border: none;
+      background: transparent;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      color: #2D2B2B;
+      outline: none;
+      flex: 1;
+    }
+
+    .search-box input::placeholder {
+      color: #9CA3AF;
+      font-weight: 300;
+    }
+
+    /* ── Badge ── */
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #FDF2E9;
+      color: #C67A4E;
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+
+    .badge span {
+      font-size: 12px;
+    }
+
+    /* ── Word Card ── */
+
+    .word-card {
+      background: #FFFFFF;
+      border-radius: 20px;
+      padding: 28px 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* watercolor accent dot */
+    .word-card::before {
+      content: '';
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle, rgba(79,70,229,0.06) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .word-card::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: -20px;
+      width: 80px;
+      height: 80px;
+      background: radial-gradient(circle, rgba(232,168,124,0.05) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .word-display {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 700;
+      color: #2D2B2B;
+      margin-bottom: 4px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .word-phonetic {
+      font-size: 14px;
+      color: #6B7280;
+      font-weight: 300;
+      font-style: italic;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .divider-line {
+      width: 40px;
+      height: 2px;
+      background: linear-gradient(90deg, #4F46E5, transparent);
+      border-radius: 1px;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .word-definition {
+      font-size: 15px;
+      line-height: 1.7;
+      color: #4B4A4A;
+      font-weight: 300;
+      margin-bottom: 4px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .word-example {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #9CA3AF;
+      font-style: italic;
+      font-weight: 300;
+      position: relative;
+      z-index: 1;
+    }
+
+    .word-example::before {
+      content: '"';
+    }
+    .word-example::after {
+      content: '"';
+    }
+
+    /* ── Actions ── */
+
+    .word-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .action-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      border: 1px solid #F0EDE6;
+      background: #FAF9F6;
+      font-size: 16px;
+      cursor: default;
+      transition: all 0.2s;
+    }
+
+    .action-btn:hover {
+      background: #F0EDE6;
+    }
+
+    .action-btn.active {
+      background: #FDF2E9;
+      border-color: #E8A87C;
+      color: #C67A4E;
+    }
+
+    /* ── Suggestions ── */
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: #6B7280;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 14px;
+    }
+
+    .suggestions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .suggestion-chip {
+      padding: 8px 16px;
+      background: #FFFFFF;
+      border: 1px solid #F0EDE6;
+      border-radius: 20px;
+      font-size: 13px;
+      color: #4B4A4A;
+      font-weight: 400;
+      cursor: default;
+      transition: all 0.2s;
+    }
+
+    .suggestion-chip:hover {
+      border-color: #4F46E5;
+      color: #4F46E5;
+    }
+
+    /* ── Bottom Nav ── */
+
+    .bottom-nav {
+      display: flex;
+      justify-content: space-around;
+      background: #FFFFFF;
+      padding: 8px 0;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+      margin-top: 32px;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      padding: 8px 20px;
+      border-radius: 12px;
+      cursor: default;
+      font-size: 12px;
+      color: #9CA3AF;
+      transition: all 0.2s;
+    }
+
+    .nav-item .nav-icon {
+      font-size: 18px;
+    }
+
+    .nav-item.active {
+      color: #4F46E5;
+    }
+
+    .nav-item.active .nav-icon {
+      color: #4F46E5;
+    }
+
+    /* ── Color Palette Section ── */
+
+    .palette-section {
+      margin-top: 48px;
+      padding: 28px 24px;
+      background: #FFFFFF;
+      border-radius: 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    }
+
+    .palette-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: #2D2B2B;
+      margin-bottom: 20px;
+    }
+
+    .palette-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .palette-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .palette-swatch {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+
+    .palette-info {
+      font-size: 12px;
+      color: #6B7280;
+    }
+
+    .palette-info strong {
+      display: block;
+      font-size: 13px;
+      color: #2D2B2B;
+      font-weight: 500;
+    }
+
+    .font-sample {
+      margin-top: 20px;
+    }
+
+    .font-sample-item {
+      margin-bottom: 12px;
+    }
+
+    .font-sample-item .label {
+      font-size: 11px;
+      color: #9CA3AF;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .sample-serif {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-weight: 600;
+      color: #2D2B2B;
+    }
+
+    .sample-sans {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      color: #4B4A4A;
+      font-weight: 300;
+    }
+
+    /* ── Title ── */
+
+    .page-title {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .page-title h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: #6B7280;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .page-sub {
+      font-size: 13px;
+      color: #9CA3AF;
+      margin-bottom: 12px;
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 24px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Watercolor accent bar -->
+  <div class="watercolor-bar"></div>
+
+  <!-- Header -->
+  <div class="app-header">
+    <div>
+      <div class="app-logo">Y<span>A</span>S</div>
+      <div class="app-logo-sub">Your Amazing Words</div>
+    </div>
+    <div class="header-actions">
+      <div class="header-icon">🔔</div>
+      <div class="header-icon">⚙️</div>
+    </div>
+  </div>
+
+  <!-- Search -->
+  <div class="search-box">
+    <span class="icon">🔍</span>
+    <input type="text" placeholder="Search for a word..." value="serendipity">
+  </div>
+
+  <!-- Badge -->
+  <div class="badge">
+    <span>✦</span> Word of the day
+  </div>
+
+  <!-- Word Card -->
+  <div class="word-card">
+    <div class="word-display">Serendipity</div>
+    <div class="word-phonetic">/ˌserənˈdɪpɪti/</div>
+    <div class="divider-line"></div>
+    <div class="word-definition">
+      The occurrence and development of events by chance in a happy or beneficial way.
+    </div>
+    <div class="word-example">
+      Finding that bookshop was pure serendipity.
+    </div>
+
+    <div class="word-actions">
+      <div class="action-btn">🔊</div>
+      <div class="action-btn active">♡</div>
+      <div class="action-btn">📤</div>
+    </div>
+  </div>
+
+  <!-- Suggestions -->
+  <div class="section-label">Discover more</div>
+  <div class="suggestions">
+    <span class="suggestion-chip">Petrichor</span>
+    <span class="suggestion-chip">Ephemeral</span>
+    <span class="suggestion-chip">Sonder</span>
+    <span class="suggestion-chip">Halcyon</span>
+    <span class="suggestion-chip">Liminal</span>
+    <span class="suggestion-chip">Mellifluous</span>
+  </div>
+
+  <!-- Bottom Nav -->
+  <div class="bottom-nav">
+    <div class="nav-item active">
+      <span class="nav-icon">🏠</span>
+      <span>Home</span>
+    </div>
+    <div class="nav-item">
+      <span class="nav-icon">🔍</span>
+      <span>Search</span>
+    </div>
+    <div class="nav-item">
+      <span class="nav-icon">♡</span>
+      <span>Favorites</span>
+    </div>
+  </div>
+
+  <!-- Design System -->
+  <div class="palette-section">
+    <h2>🎨 Design System</h2>
+
+    <div class="palette-grid">
+      <div class="palette-item">
+        <div class="palette-swatch" style="background:#4F46E5;"></div>
+        <div class="palette-info"><strong>Indigo</strong>#4F46E5</div>
+      </div>
+      <div class="palette-item">
+        <div class="palette-swatch" style="background:#E8A87C;"></div>
+        <div class="palette-info"><strong>Terracota</strong>#E8A87C</div>
+      </div>
+      <div class="palette-item">
+        <div class="palette-swatch" style="background:#F8F6F1;"></div>
+        <div class="palette-info"><strong>Paper</strong>#F8F6F1</div>
+      </div>
+      <div class="palette-item">
+        <div class="palette-swatch" style="background:#2D2B2B;"></div>
+        <div class="palette-info"><strong>Charcoal</strong>#2D2B2B</div>
+      </div>
+      <div class="palette-item">
+        <div class="palette-swatch" style="background:#6B7280;"></div>
+        <div class="palette-info"><strong>Stone</strong>#6B7280</div>
+      </div>
+      <div class="palette-item">
+        <div class="palette-swatch" style="background:#FDF2E9;"></div>
+        <div class="palette-info"><strong>Warm tint</strong>#FDF2E9</div>
+      </div>
+    </div>
+
+    <div class="font-sample">
+      <div class="font-sample-item">
+        <div class="label">Display / Titles</div>
+        <div class="sample-serif">Playfair Display</div>
+      </div>
+      <div class="font-sample-item">
+        <div class="label">Body / Text</div>
+        <div class="sample-sans">Inter — Clean, modern, highly readable at any size.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top:24px; font-size:12px; color:#9CA3AF;">
+    ✦ design system · YAS vocabulary app ✦
+  </div>
+
+</div>
+
+</body>
+</html>

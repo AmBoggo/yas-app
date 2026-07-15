@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F9F7F4"
+    android:padding="24dp">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="48dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="YAS"
+            android:textColor="#A78BFA"
+            android:textSize="32sp"
+            android:fontFamily="serif"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#6B7280"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+    <!-- Loading -->
+    <TextView
+        android:id="@+id/tvLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Carregando..."
+        android:textColor="#A78BFA"
+        android:textSize="16sp"
+        android:visibility="visible" />
+
+    <!-- Card -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardPalavra"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="4dp"
+        android:visibility="gone"
+        android:padding="28dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvPalavra"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#2D2B2B"
+                android:textSize="34sp"
+                android:fontFamily="serif"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvFonetica"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#9CA3AF"
+                android:textSize="13sp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="20dp" />
+
+            <TextView
+                android:id="@+id/tvDefinicao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#4B4A4A"
+                android:textSize="15sp"
+                android:lineSpacingExtra="4dp" />
+
+            <TextView
+                android:id="@+id/tvExemplo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#C4B5FD"
+                android:textSize="14sp"
+                android:fontStyle="italic"
+                android:layout_marginTop="8dp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

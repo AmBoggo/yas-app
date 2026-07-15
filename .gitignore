@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.db
+
+# Android
+android/YasApp/.gradle/
+android/YasApp/build/
+android/YasApp/app/build/
+android/YasApp/local.properties
+*.iml
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

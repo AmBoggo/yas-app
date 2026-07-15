@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="roxo_pastel">#A78BFA</color>
+    <color name="roxo_claro">#C4B5FD</color>
+    <color name="roxo_escuro">#7C5CFA</color>
+    <color name="fundo">#F9F7F4</color>
+    <color name="branco">#FFFFFF</color>
+    <color name="texto">#2D2B2B</color>
+    <color name="texto_claro">#6B7280</color>
+    <color name="terracota">#E8A87C</color>
+</resources>
