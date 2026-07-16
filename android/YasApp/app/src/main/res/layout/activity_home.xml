@@ -7,7 +7,7 @@
     android:background="#F9F7F4"
     android:paddingStart="24dp"
     android:paddingEnd="24dp"
-    android:paddingTop="52dp"
+    android:paddingTop="56dp"
     android:paddingBottom="0dp">
 
     <!-- Header -->
@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="56dp"
+        android:layout_marginBottom="48dp"
         android:gravity="bottom">
 
         <LinearLayout
@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:text="YAS"
                 android:textColor="#A78BFA"
-                android:textSize="36sp"
+                android:textSize="40sp"
                 android:fontFamily="serif"
                 android:textStyle="bold" />
 
@@ -38,8 +38,8 @@
                 android:layout_height="wrap_content"
                 android:text="your daily word"
                 android:textColor="#A78BFA"
-                android:textSize="13sp"
-                android:letterSpacing="0.05"
+                android:textSize="16sp"
+                android:letterSpacing="0.04"
                 android:textAllCaps="true"
                 android:alpha="0.6" />
         </LinearLayout>
@@ -55,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#4B4A4A"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -63,7 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#9CA3AF"
-                android:textSize="13sp" />
+                android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -75,7 +75,7 @@
         android:layout_gravity="center"
         android:text="carregando..."
         android:textColor="#A78BFA"
-        android:textSize="16sp" />
+        android:textSize="18sp" />
 
     <!-- Card -->
     <androidx.cardview.widget.CardView
@@ -91,7 +91,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="28dp">
+            android:padding="32dp">
 
             <!-- Badge -->
             <LinearLayout
@@ -99,11 +99,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:layout_marginBottom="20dp">
+                android:layout_marginBottom="24dp">
 
                 <ImageView
-                    android:layout_width="6dp"
-                    android:layout_height="6dp"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
                     android:layout_marginEnd="8dp"
                     android:src="@drawable/circle_badge"
                     android:contentDescription="dot" />
@@ -113,7 +113,7 @@
                     android:layout_height="wrap_content"
                     android:text="today's word"
                     android:textColor="#A78BFA"
-                    android:textSize="11sp"
+                    android:textSize="16sp"
                     android:textAllCaps="true"
                     android:letterSpacing="0.08" />
             </LinearLayout>
@@ -123,7 +123,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#2D2B2B"
-                android:textSize="36sp"
+                android:textSize="38sp"
                 android:fontFamily="serif"
                 android:textStyle="bold" />
 
@@ -132,7 +132,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#9CA3AF"
-                android:textSize="13sp"
+                android:textSize="18sp"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="24dp" />
 
@@ -141,7 +141,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#4B4A4A"
-                android:textSize="15sp"
+                android:textSize="18sp"
                 android:lineSpacingExtra="6dp" />
 
             <TextView
@@ -149,7 +149,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#C4B5FD"
-                android:textSize="14sp"
+                android:textSize="17sp"
                 android:fontStyle="italic"
                 android:layout_marginTop="8dp" />
 
@@ -163,17 +163,18 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="56dp"
                 android:orientation="horizontal"
                 android:gravity="center">
 
                 <TextView
+                    android:id="@+id/btnListen"
                     android:layout_width="0dp"
-                    android:layout_height="48dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="🔊  Listen"
                     android:textColor="#6B7280"
-                    android:textSize="13sp"
+                    android:textSize="16sp"
                     android:gravity="center"
                     android:background="#F9F7F4"
                     android:onClick="onListenClick"
@@ -183,11 +184,11 @@
                 <TextView
                     android:id="@+id/btnFavorito"
                     android:layout_width="0dp"
-                    android:layout_height="48dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="♡  Save"
                     android:textColor="#A78BFA"
-                    android:textSize="13sp"
+                    android:textSize="16sp"
                     android:gravity="center"
                     android:background="#F9F7F4"
                     android:onClick="onFavoriteClick"
@@ -195,12 +196,13 @@
                     android:focusable="true" />
 
                 <TextView
+                    android:id="@+id/btnShare"
                     android:layout_width="0dp"
-                    android:layout_height="48dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="📤  Share"
                     android:textColor="#6B7280"
-                    android:textSize="13sp"
+                    android:textSize="16sp"
                     android:gravity="center"
                     android:background="#F9F7F4"
                     android:onClick="onShareClick"
@@ -220,7 +222,7 @@
     <!-- Bottom Nav -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="72dp"
         android:orientation="horizontal"
         android:background="@android:color/white"
         android:elevation="4dp"
@@ -229,34 +231,43 @@
         android:gravity="center">
 
         <TextView
+            android:id="@+id/navHome"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="◉  Home"
             android:textColor="#A78BFA"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:gravity="center"
-            android:paddingVertical="10dp" />
+            android:onClick="onNavHomeClick"
+            android:clickable="true"
+            android:focusable="true" />
 
         <TextView
+            android:id="@+id/navSearch"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="⌕  Search"
             android:textColor="#9CA3AF"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:gravity="center"
-            android:paddingVertical="10dp" />
+            android:onClick="onNavSearchClick"
+            android:clickable="true"
+            android:focusable="true" />
 
         <TextView
+            android:id="@+id/navSaved"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="♡  Saved"
             android:textColor="#9CA3AF"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:gravity="center"
-            android:paddingVertical="10dp" />
+            android:onClick="onNavSavedClick"
+            android:clickable="true"
+            android:focusable="true" />
     </LinearLayout>
 
 </LinearLayout>

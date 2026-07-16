@@ -1,6 +1,7 @@
 package com.yas.ui;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -12,7 +13,6 @@ import androidx.cardview.widget.CardView;
 import com.yas.R;
 import com.yas.api.ApiService;
 import com.yas.api.FavoritoRequest;
-import com.yas.api.FavoritoResponse;
 import com.yas.api.RetrofitClient;
 import com.yas.model.PalavraResponse;
 
@@ -50,13 +50,13 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void mostrarDataAtual() {
-        SimpleDateFormat diaSemanaFmt = new SimpleDateFormat("EEEE", Locale.US);
         SimpleDateFormat dataFmt = new SimpleDateFormat("MMM dd", Locale.US);
+        SimpleDateFormat diaSemanaFmt = new SimpleDateFormat("EEEE", Locale.US);
         Date hoje = new Date();
 
         tvData.setText(dataFmt.format(hoje));
-        tvDiaSemana.setText(Character.toUpperCase(diaSemanaFmt.format(hoje).charAt(0))
-                + diaSemanaFmt.format(hoje).substring(1));
+        String dia = diaSemanaFmt.format(hoje);
+        tvDiaSemana.setText(dia.substring(0, 1).toUpperCase() + dia.substring(1));
     }
 
     private void carregarPalavraDoDia() {
@@ -79,7 +79,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<PalavraResponse> call, Throwable t) {
                 tvLoading.setVisibility(View.GONE);
-                Toast.makeText(HomeActivity.this, "Sem conexão", Toast.LENGTH_LONG).show();
+                Toast.makeText(HomeActivity.this, "Sem conexão: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -101,10 +101,14 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         cardPalavra.setVisibility(View.VISIBLE);
+        tvLoading.setVisibility(View.GONE);
     }
 
+    // ── Action Buttons ──
+
     public void onListenClick(View view) {
-        Toast.makeText(this, "Áudio disponível em breve", Toast.LENGTH_SHORT).show();
+        if (palavraAtual == null) return;
+        Toast.makeText(this, "🔊 " + palavraAtual.palavra, Toast.LENGTH_SHORT).show();
     }
 
     public void onFavoriteClick(View view) {
@@ -118,7 +122,7 @@ public class HomeActivity extends AppCompatActivity {
         String fonetica = palavraAtual.fonetica != null ? palavraAtual.fonetica : "";
 
         RetrofitClient.getService().salvarFavorito(
-                new com.yas.api.FavoritoRequest(palavraAtual.palavra, definicao, fonetica)
+                new FavoritoRequest(palavraAtual.palavra, definicao, fonetica)
         ).enqueue(new Callback<com.yas.api.FavoritoResponse>() {
             @Override
             public void onResponse(Call<com.yas.api.FavoritoResponse> call, Response<com.yas.api.FavoritoResponse> response) {
@@ -138,10 +142,25 @@ public class HomeActivity extends AppCompatActivity {
     public void onShareClick(View view) {
         if (palavraAtual == null) return;
 
-        String texto = "📖 " + palavraAtual.palavra + " — " + tvDefinicao.getText();
+        String texto = "📖 " + palavraAtual.palavra + " — " + tvDefinicao.getText().toString();
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("text/plain");
         share.putExtra(Intent.EXTRA_TEXT, texto + "\n\nby YAS — Your Amazing Sentences");
-        startActivity(Intent.createChooser(share, "Compartilhar palavra"));
+        startActivity(Intent.createChooser(share, "Compartilhar"));
+    }
+
+    // ── Bottom Nav ──
+
+    public void onNavHomeClick(View view) {
+        // Já está na Home, só recarrega
+        carregarPalavraDoDia();
+    }
+
+    public void onNavSearchClick(View view) {
+        Toast.makeText(this, "Busca disponível em breve", Toast.LENGTH_SHORT).show();
+    }
+
+    public void onNavSavedClick(View view) {
+        Toast.makeText(this, "Favoritos disponível em breve", Toast.LENGTH_SHORT).show();
     }
 }
