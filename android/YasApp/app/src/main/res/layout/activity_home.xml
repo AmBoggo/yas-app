@@ -167,21 +167,20 @@
                 android:orientation="horizontal"
                 android:gravity="center">
 
-                <Button
+                <TextView
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="1"
                     android:text="🔊  Listen"
                     android:textColor="#6B7280"
                     android:textSize="13sp"
+                    android:gravity="center"
                     android:background="#F9F7F4"
                     android:onClick="onListenClick"
-                    android:stateListAnimator="@null"
-                    android:elevation="0dp"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp" />
+                    android:clickable="true"
+                    android:focusable="true" />
 
-                <Button
+                <TextView
                     android:id="@+id/btnFavorito"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
@@ -189,26 +188,24 @@
                     android:text="♡  Save"
                     android:textColor="#A78BFA"
                     android:textSize="13sp"
+                    android:gravity="center"
                     android:background="#F9F7F4"
                     android:onClick="onFavoriteClick"
-                    android:stateListAnimator="@null"
-                    android:elevation="0dp"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp" />
+                    android:clickable="true"
+                    android:focusable="true" />
 
-                <Button
+                <TextView
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="1"
                     android:text="📤  Share"
                     android:textColor="#6B7280"
                     android:textSize="13sp"
+                    android:gravity="center"
                     android:background="#F9F7F4"
                     android:onClick="onShareClick"
-                    android:stateListAnimator="@null"
-                    android:elevation="0dp"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp" />
+                    android:clickable="true"
+                    android:focusable="true" />
             </LinearLayout>
 
         </LinearLayout>
