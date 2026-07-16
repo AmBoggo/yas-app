@@ -11,9 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.yas.R;
-import com.yas.api.ApiService;
-import com.yas.api.FavoritoRequest;
-import com.yas.api.RetrofitClient;
+import com.yas.data.FavoritoLocal;
+import com.yas.data.FavoritoStorage;
 import com.yas.model.PalavraResponse;
 
 import java.text.SimpleDateFormat;
@@ -29,6 +28,7 @@ public class HomeActivity extends AppCompatActivity {
     private TextView tvPalavra, tvFonetica, tvDefinicao, tvExemplo, tvLoading, tvData, tvDiaSemana, btnFavorito;
     private CardView cardPalavra;
     private PalavraResponse palavraAtual;
+    private FavoritoStorage favoritoStorage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +44,7 @@ public class HomeActivity extends AppCompatActivity {
         tvDiaSemana = findViewById(R.id.tvDiaSemana);
         btnFavorito = findViewById(R.id.btnFavorito);
         cardPalavra = findViewById(R.id.cardPalavra);
+        favoritoStorage = new FavoritoStorage(this);
 
         mostrarDataAtual();
         carregarPalavraDoDia();
@@ -102,6 +103,13 @@ public class HomeActivity extends AppCompatActivity {
 
         cardPalavra.setVisibility(View.VISIBLE);
         tvLoading.setVisibility(View.GONE);
+
+        // Atualizar botão de favorito
+        if (favoritoStorage.isSalvo(palavra.palavra)) {
+            btnFavorito.setText("♥  Saved");
+        } else {
+            btnFavorito.setText("♡  Save");
+        }
     }
 
     // ── Action Buttons ──
@@ -141,22 +149,22 @@ public class HomeActivity extends AppCompatActivity {
 
         String fonetica = palavraAtual.fonetica != null ? palavraAtual.fonetica : "";
 
-        RetrofitClient.getService().salvarFavorito(
-                new FavoritoRequest(palavraAtual.palavra, definicao, fonetica)
-        ).enqueue(new Callback<com.yas.api.FavoritoResponse>() {
-            @Override
-            public void onResponse(Call<com.yas.api.FavoritoResponse> call, Response<com.yas.api.FavoritoResponse> response) {
-                if (response.isSuccessful()) {
-                    btnFavorito.setText("♥  Saved");
-                    Toast.makeText(HomeActivity.this, "Palavra salva!", Toast.LENGTH_SHORT).show();
-                }
-            }
+        // Se já está salvo, remove
+        if (favoritoStorage.isSalvo(palavraAtual.palavra)) {
+            favoritoStorage.remover(palavraAtual.palavra);
+            btnFavorito.setText("♡  Save");
+            Toast.makeText(this, "Removido dos favoritos", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-            @Override
-            public void onFailure(Call<com.yas.api.FavoritoResponse> call, Throwable t) {
-                Toast.makeText(HomeActivity.this, "Erro ao salvar", Toast.LENGTH_SHORT).show();
-            }
-        });
+        // Salva localmente
+        FavoritoLocal fav = new FavoritoLocal(palavraAtual.palavra, definicao, fonetica);
+        if (favoritoStorage.salvar(fav)) {
+            btnFavorito.setText("♥  Saved");
+            Toast.makeText(this, "Palavra salva!", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Palavra já salva", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void onShareClick(View view) {
@@ -181,6 +189,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void onNavSavedClick(View view) {
-        Toast.makeText(this, "Favoritos disponível em breve", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this, SavedWordsActivity.class));
     }
 }

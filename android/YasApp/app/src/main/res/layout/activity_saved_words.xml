@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F9F7F4"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="♥ Saved Words"
+        android:textColor="#A78BFA"
+        android:textSize="32sp"
+        android:fontFamily="serif"
+        android:textStyle="bold"
+        android:layout_marginBottom="24dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listaFavoritos"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/tvVazio"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Nenhuma palavra salva ainda"
+        android:textColor="#9CA3AF"
+        android:textSize="18sp"
+        android:visibility="visible" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="← Back"
+        android:textColor="#A78BFA"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:onClick="onBackClick"
+        android:clickable="true"
+        android:focusable="true" />
+
+</LinearLayout>
