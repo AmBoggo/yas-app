@@ -9,7 +9,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.yas.R;
 import com.yas.api.ApiService;
+import com.yas.api.FavoritoRequest;
+import com.yas.api.FavoritoResponse;
 import com.yas.api.RetrofitClient;
 import com.yas.model.PalavraResponse;
 
