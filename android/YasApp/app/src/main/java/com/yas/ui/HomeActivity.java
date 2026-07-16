@@ -108,7 +108,27 @@ public class HomeActivity extends AppCompatActivity {
 
     public void onListenClick(View view) {
         if (palavraAtual == null) return;
-        Toast.makeText(this, "🔊 " + palavraAtual.palavra, Toast.LENGTH_SHORT).show();
+
+        String audioUrl = palavraAtual.audio_url;
+        if (audioUrl != null && !audioUrl.isEmpty()) {
+            MediaPlayer mediaPlayer = new MediaPlayer();
+            try {
+                mediaPlayer.setDataSource(audioUrl);
+                mediaPlayer.prepareAsync();
+                mediaPlayer.setOnPreparedListener(mp -> mp.start());
+                mediaPlayer.setOnCompletionListener(mp -> mp.release());
+                mediaPlayer.setOnErrorListener((mp, what, extra) -> {
+                    Toast.makeText(this, "Erro ao tocar áudio", Toast.LENGTH_SHORT).show();
+                    mp.release();
+                    return true;
+                });
+                Toast.makeText(this, "🔊 " + palavraAtual.palavra, Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Toast.makeText(this, "Erro: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, "Áudio não disponível para esta palavra", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void onFavoriteClick(View view) {

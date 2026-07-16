@@ -30,6 +30,7 @@ async def buscar_palavra_do_dia(hoje: date | None = None) -> dict:
     return {
         "palavra": palavra.texto,
         "fonetica": palavra.fonetica,
+        "audio_url": "",
         "significados": [
             {
                 "classe": "unknown",
@@ -87,6 +88,7 @@ def _formatar_resposta(dados: dict) -> dict:
     return {
         "palavra": dados.get("word", ""),
         "fonetica": _extrair_fonetica(dados),
+        "audio_url": _extrair_audio(dados),
         "significados": significados,
         "fonte": "api",
     }
@@ -99,6 +101,15 @@ def _extrair_fonetica(dados: dict) -> str:
         if f.get("text"):
             return f["text"]
     return dados.get("phonetic", "")
+
+
+def _extrair_audio(dados: dict) -> str:
+    """Extrai a URL do áudio dos dados da API."""
+    for f in dados.get("phonetics", []):
+        url = f.get("audio", "")
+        if url and url.endswith(".mp3"):
+            return url
+    return ""
 
 
 # ── Favoritos ──

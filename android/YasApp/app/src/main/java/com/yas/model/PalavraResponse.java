@@ -5,6 +5,7 @@ import java.util.List;
 public class PalavraResponse {
     public String palavra;
     public String fonetica;
+    public String audio_url;
     public List<Significado> significados;
     public String fonte;
 
