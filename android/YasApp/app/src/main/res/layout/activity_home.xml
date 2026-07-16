@@ -101,11 +101,12 @@
                 android:gravity="center_vertical"
                 android:layout_marginBottom="20dp">
 
-                <View
-                    android:layout_width="4dp"
-                    android:layout_height="4dp"
-                    android:layout_marginEnd="6dp"
-                    android:background="@drawable/circle_badge" />
+                <ImageView
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/circle_badge"
+                    android:contentDescription="dot" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -166,45 +167,48 @@
                 android:orientation="horizontal"
                 android:gravity="center">
 
-                <TextView
+                <Button
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:layout_weight="1"
                     android:text="🔊  Listen"
                     android:textColor="#6B7280"
                     android:textSize="13sp"
-                    android:gravity="center"
-                    android:padding="10dp"
                     android:background="#F9F7F4"
                     android:onClick="onListenClick"
-                    android:clickable="true" />
+                    android:stateListAnimator="@null"
+                    android:elevation="0dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp" />
 
-                <TextView
+                <Button
                     android:id="@+id/btnFavorito"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:layout_weight="1"
                     android:text="♡  Save"
                     android:textColor="#A78BFA"
                     android:textSize="13sp"
-                    android:gravity="center"
-                    android:padding="10dp"
                     android:background="#F9F7F4"
                     android:onClick="onFavoriteClick"
-                    android:clickable="true" />
+                    android:stateListAnimator="@null"
+                    android:elevation="0dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp" />
 
-                <TextView
+                <Button
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:layout_weight="1"
                     android:text="📤  Share"
                     android:textColor="#6B7280"
                     android:textSize="13sp"
-                    android:gravity="center"
-                    android:padding="10dp"
                     android:background="#F9F7F4"
                     android:onClick="onShareClick"
-                    android:clickable="true" />
+                    android:stateListAnimator="@null"
+                    android:elevation="0dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp" />
             </LinearLayout>
 
         </LinearLayout>
@@ -223,39 +227,35 @@
         android:orientation="horizontal"
         android:background="@android:color/white"
         android:elevation="4dp"
-        android:paddingVertical="8dp"
         android:layout_marginHorizontal="-24dp"
         android:paddingHorizontal="24dp">
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_weight="1"
             android:text="◉  Home"
             android:textColor="#A78BFA"
             android:textSize="11sp"
-            android:gravity="center"
-            android:paddingVertical="10dp" />
+            android:gravity="center" />
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_weight="1"
             android:text="⌕  Search"
             android:textColor="#9CA3AF"
             android:textSize="11sp"
-            android:gravity="center"
-            android:paddingVertical="10dp" />
+            android:gravity="center" />
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_weight="1"
             android:text="♡  Saved"
             android:textColor="#9CA3AF"
             android:textSize="11sp"
-            android:gravity="center"
-            android:paddingVertical="10dp" />
+            android:gravity="center" />
     </LinearLayout>
 
 </LinearLayout>
