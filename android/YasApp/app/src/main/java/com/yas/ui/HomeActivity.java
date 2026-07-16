@@ -185,7 +185,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void onNavSearchClick(View view) {
-        Toast.makeText(this, "Busca disponível em breve", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this, SearchActivity.class));
     }
 
     public void onNavSavedClick(View view) {

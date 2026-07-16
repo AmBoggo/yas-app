@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F9F7F4"
+    android:padding="24dp">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="32dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="YAS"
+            android:textColor="#A78BFA"
+            android:textSize="32sp"
+            android:fontFamily="serif"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="⌕  Search"
+            android:textColor="#A78BFA"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <!-- Search Bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:background="@android:color/white"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="16dp"
+        android:layout_marginBottom="24dp">
+
+        <EditText
+            android:id="@+id/etBusca"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="Search any word..."
+            android:textSize="18sp"
+            android:textColor="#2D2B2B"
+            android:background="@null"
+            android:imeOptions="actionSearch"
+            android:singleLine="true" />
+
+        <TextView
+            android:id="@+id/btnBuscar"
+            android:layout_width="56dp"
+            android:layout_height="match_parent"
+            android:text="⌕"
+            android:textColor="#A78BFA"
+            android:textSize="24sp"
+            android:gravity="center"
+            android:onClick="onSearchClick"
+            android:clickable="true"
+            android:focusable="true" />
+    </LinearLayout>
+
+    <!-- Loading -->
+    <TextView
+        android:id="@+id/tvLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="searching..."
+        android:textColor="#A78BFA"
+        android:textSize="16sp"
+        android:visibility="gone" />
+
+    <!-- Results -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardResultado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="2dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="28dp">
+
+            <TextView
+                android:id="@+id/tvPalavra"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#2D2B2B"
+                android:textSize="34sp"
+                android:fontFamily="serif"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvFonetica"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#9CA3AF"
+                android:textSize="16sp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="20dp" />
+
+            <TextView
+                android:id="@+id/tvDefinicao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#4B4A4A"
+                android:textSize="17sp"
+                android:lineSpacingExtra="6dp" />
+
+            <TextView
+                android:id="@+id/tvExemplo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#C4B5FD"
+                android:textSize="16sp"
+                android:fontStyle="italic"
+                android:layout_marginTop="8dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#F3EFE8"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="16dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/btnFavorito"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="♡  Save"
+                    android:textColor="#A78BFA"
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:background="#F9F7F4"
+                    android:onClick="onFavoriteClick"
+                    android:clickable="true"
+                    android:focusable="true" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="📤  Share"
+                    android:textColor="#6B7280"
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:background="#F9F7F4"
+                    android:onClick="onShareClick"
+                    android:clickable="true"
+                    android:focusable="true" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Not found -->
+    <TextView
+        android:id="@+id/tvNotFound"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="#9CA3AF"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:visibility="gone" />
+
+    <!-- Spacer -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- Bottom Nav -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="@android:color/white"
+        android:elevation="4dp"
+        android:layout_marginHorizontal="-24dp"
+        android:paddingHorizontal="24dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="◉  Home"
+            android:textColor="#9CA3AF"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:onClick="onNavHomeClick"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="⌕  Search"
+            android:textColor="#A78BFA"
+            android:textSize="14sp"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="♡  Saved"
+            android:textColor="#9CA3AF"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:onClick="onNavSavedClick"
+            android:clickable="true"
+            android:focusable="true" />
+    </LinearLayout>
+
+</LinearLayout>
