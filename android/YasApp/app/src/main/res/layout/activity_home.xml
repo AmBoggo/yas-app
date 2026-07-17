@@ -47,23 +47,46 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="end">
+            android:orientation="horizontal"
+            android:gravity="end"
+            android:baselineAligned="false">
 
             <TextView
-                android:id="@+id/tvData"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#4B4A4A"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:id="@+id/tvIdioma"
+                android:layout_width="48dp"
+                android:layout_height="28dp"
+                android:gravity="center"
+                android:text="EN"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:background="@drawable/pill_idioma"
+                android:onClick="onIdiomaClick"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginEnd="12dp" />
 
-            <TextView
-                android:id="@+id/tvDiaSemana"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#9CA3AF"
-                android:textSize="16sp" />
+                android:orientation="vertical"
+                android:gravity="end">
+
+                <TextView
+                    android:id="@+id/tvData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#4B4A4A"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvDiaSemana"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#9CA3AF"
+                    android:textSize="16sp" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 

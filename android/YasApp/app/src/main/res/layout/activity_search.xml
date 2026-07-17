@@ -25,6 +25,21 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tvIdioma"
+            android:layout_width="48dp"
+            android:layout_height="28dp"
+            android:gravity="center"
+            android:text="EN"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:background="@drawable/pill_idioma"
+            android:onClick="onIdiomaClick"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginEnd="12dp" />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="⌕  Search"
