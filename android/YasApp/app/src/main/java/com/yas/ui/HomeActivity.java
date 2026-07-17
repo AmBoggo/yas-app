@@ -11,12 +11,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.yas.R;
+import com.yas.api.ApiService;
+import com.yas.api.RetrofitClient;
 import com.yas.data.FavoritoLocal;
 import com.yas.data.FavoritoStorage;
 import com.yas.model.PalavraResponse;
+import com.yas.util.WordOfTheDay;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import retrofit2.Call;
@@ -64,21 +68,24 @@ public class HomeActivity extends AppCompatActivity {
         tvLoading.setVisibility(View.VISIBLE);
         cardPalavra.setVisibility(View.GONE);
 
+        String palavra = WordOfTheDay.getPalavraDoDia();
+        tvPalavra.setText(palavra);
+
         ApiService api = RetrofitClient.getService();
-        api.palavraDoDia().enqueue(new Callback<PalavraResponse>() {
+        api.buscar(palavra).enqueue(new Callback<List<PalavraResponse>>() {
             @Override
-            public void onResponse(Call<PalavraResponse> call, Response<PalavraResponse> response) {
+            public void onResponse(Call<List<PalavraResponse>> call, Response<List<PalavraResponse>> response) {
                 tvLoading.setVisibility(View.GONE);
-                if (response.isSuccessful() && response.body() != null) {
-                    palavraAtual = response.body();
+                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
+                    palavraAtual = response.body().get(0);
                     exibirPalavra(palavraAtual);
                 } else {
-                    Toast.makeText(HomeActivity.this, "Erro ao carregar", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HomeActivity.this, "Erro ao carregar definição", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<PalavraResponse> call, Throwable t) {
+            public void onFailure(Call<List<PalavraResponse>> call, Throwable t) {
                 tvLoading.setVisibility(View.GONE);
                 Toast.makeText(HomeActivity.this, "Sem conexão: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
@@ -86,15 +93,25 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void exibirPalavra(PalavraResponse palavra) {
-        tvPalavra.setText(palavra.palavra);
-        tvFonetica.setText(palavra.fonetica != null ? palavra.fonetica : "");
+        tvPalavra.setText(palavra.word);
 
-        if (palavra.significados != null && !palavra.significados.isEmpty()) {
-            PalavraResponse.Definicao def = palavra.significados.get(0).definicoes.get(0);
-            tvDefinicao.setText(def.definicao);
+        // Fonética
+        if (palavra.phonetic != null && !palavra.phonetic.isEmpty()) {
+            tvFonetica.setText(palavra.phonetic);
+        } else if (palavra.phonetics != null && !palavra.phonetics.isEmpty()
+                && palavra.phonetics.get(0).text != null) {
+            tvFonetica.setText(palavra.phonetics.get(0).text);
+        } else {
+            tvFonetica.setText("");
+        }
 
-            if (def.exemplo != null && !def.exemplo.isEmpty()) {
-                tvExemplo.setText("\u201C" + def.exemplo + "\u201D");
+        // Definição e exemplo
+        if (palavra.meanings != null && !palavra.meanings.isEmpty()) {
+            PalavraResponse.Definition def = palavra.meanings.get(0).definitions.get(0);
+            tvDefinicao.setText(def.definition);
+
+            if (def.example != null && !def.example.isEmpty()) {
+                tvExemplo.setText("\u201C" + def.example + "\u201D");
                 tvExemplo.setVisibility(View.VISIBLE);
             } else {
                 tvExemplo.setVisibility(View.GONE);
@@ -105,7 +122,7 @@ public class HomeActivity extends AppCompatActivity {
         tvLoading.setVisibility(View.GONE);
 
         // Atualizar botão de favorito
-        if (favoritoStorage.isSalvo(palavra.palavra)) {
+        if (favoritoStorage.isSalvo(palavra.word)) {
             btnFavorito.setText("♥  Saved");
         } else {
             btnFavorito.setText("♡  Save");
@@ -117,8 +134,18 @@ public class HomeActivity extends AppCompatActivity {
     public void onListenClick(View view) {
         if (palavraAtual == null) return;
 
-        String audioUrl = palavraAtual.audio_url;
-        if (audioUrl != null && !audioUrl.isEmpty()) {
+        // Pega a URL de áudio do primeiro phonetic que tiver áudio
+        String audioUrl = null;
+        if (palavraAtual.phonetics != null) {
+            for (PalavraResponse.PhoneticInfo p : palavraAtual.phonetics) {
+                if (p.audio != null && !p.audio.isEmpty()) {
+                    audioUrl = p.audio;
+                    break;
+                }
+            }
+        }
+
+        if (audioUrl != null) {
             MediaPlayer mediaPlayer = new MediaPlayer();
             try {
                 mediaPlayer.setDataSource(audioUrl);
@@ -130,7 +157,7 @@ public class HomeActivity extends AppCompatActivity {
                     mp.release();
                     return true;
                 });
-                Toast.makeText(this, "🔊 " + palavraAtual.palavra, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "🔊 " + palavraAtual.word, Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
                 Toast.makeText(this, "Erro: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -143,22 +170,28 @@ public class HomeActivity extends AppCompatActivity {
         if (palavraAtual == null) return;
 
         String definicao = "";
-        if (palavraAtual.significados != null && !palavraAtual.significados.isEmpty()) {
-            definicao = palavraAtual.significados.get(0).definicoes.get(0).definicao;
+        if (palavraAtual.meanings != null && !palavraAtual.meanings.isEmpty()) {
+            definicao = palavraAtual.meanings.get(0).definitions.get(0).definition;
         }
 
-        String fonetica = palavraAtual.fonetica != null ? palavraAtual.fonetica : "";
+        String fonetica = "";
+        if (palavraAtual.phonetic != null) {
+            fonetica = palavraAtual.phonetic;
+        } else if (palavraAtual.phonetics != null && !palavraAtual.phonetics.isEmpty()
+                && palavraAtual.phonetics.get(0).text != null) {
+            fonetica = palavraAtual.phonetics.get(0).text;
+        }
 
         // Se já está salvo, remove
-        if (favoritoStorage.isSalvo(palavraAtual.palavra)) {
-            favoritoStorage.remover(palavraAtual.palavra);
+        if (favoritoStorage.isSalvo(palavraAtual.word)) {
+            favoritoStorage.remover(palavraAtual.word);
             btnFavorito.setText("♡  Save");
             Toast.makeText(this, "Removido dos favoritos", Toast.LENGTH_SHORT).show();
             return;
         }
 
         // Salva localmente
-        FavoritoLocal fav = new FavoritoLocal(palavraAtual.palavra, definicao, fonetica);
+        FavoritoLocal fav = new FavoritoLocal(palavraAtual.word, definicao, fonetica);
         if (favoritoStorage.salvar(fav)) {
             btnFavorito.setText("♥  Saved");
             Toast.makeText(this, "Palavra salva!", Toast.LENGTH_SHORT).show();
@@ -170,7 +203,7 @@ public class HomeActivity extends AppCompatActivity {
     public void onShareClick(View view) {
         if (palavraAtual == null) return;
 
-        String texto = "📖 " + palavraAtual.palavra + " — " + tvDefinicao.getText().toString();
+        String texto = "📖 " + palavraAtual.word + " — " + tvDefinicao.getText().toString();
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("text/plain");
         share.putExtra(Intent.EXTRA_TEXT, texto + "\n\nby YAS — Your Amazing Sentences");

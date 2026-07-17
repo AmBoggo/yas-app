@@ -7,8 +7,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
-    // ⚠️ Mude para o IP externo da sua VM quando testar no celular
-    private static final String BASE_URL = "http://34.70.145.11:8080/";
+    // Chamada direta à Free Dictionary API — sem servidor próprio
+    private static final String BASE_URL = "https://api.dictionaryapi.dev/";
 
     private static Retrofit retrofit = null;
 

@@ -1,6 +1,7 @@
 package com.yas.ui;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -94,15 +95,25 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void exibirResultado(PalavraResponse palavra) {
-        tvPalavra.setText(palavra.palavra);
-        tvFonetica.setText(palavra.fonetica != null ? palavra.fonetica : "");
+        tvPalavra.setText(palavra.word);
 
-        if (palavra.significados != null && !palavra.significados.isEmpty()) {
-            PalavraResponse.Definicao def = palavra.significados.get(0).definicoes.get(0);
-            tvDefinicao.setText(def.definicao);
+        // Fonética
+        if (palavra.phonetic != null && !palavra.phonetic.isEmpty()) {
+            tvFonetica.setText(palavra.phonetic);
+        } else if (palavra.phonetics != null && !palavra.phonetics.isEmpty()
+                && palavra.phonetics.get(0).text != null) {
+            tvFonetica.setText(palavra.phonetics.get(0).text);
+        } else {
+            tvFonetica.setText("");
+        }
 
-            if (def.exemplo != null && !def.exemplo.isEmpty()) {
-                tvExemplo.setText("\u201C" + def.exemplo + "\u201D");
+        // Definição e exemplo
+        if (palavra.meanings != null && !palavra.meanings.isEmpty()) {
+            PalavraResponse.Definition def = palavra.meanings.get(0).definitions.get(0);
+            tvDefinicao.setText(def.definition);
+
+            if (def.example != null && !def.example.isEmpty()) {
+                tvExemplo.setText("\u201C" + def.example + "\u201D");
                 tvExemplo.setVisibility(View.VISIBLE);
             } else {
                 tvExemplo.setVisibility(View.GONE);
@@ -110,7 +121,7 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         // Atualizar botão de favorito
-        if (favoritoStorage.isSalvo(palavra.palavra)) {
+        if (favoritoStorage.isSalvo(palavra.word)) {
             btnFavorito.setText("♥  Saved");
         } else {
             btnFavorito.setText("♡  Save");
@@ -123,17 +134,24 @@ public class SearchActivity extends AppCompatActivity {
         if (palavraAtual == null) return;
 
         String definicao = "";
-        if (palavraAtual.significados != null && !palavraAtual.significados.isEmpty()) {
-            definicao = palavraAtual.significados.get(0).definicoes.get(0).definicao;
+        if (palavraAtual.meanings != null && !palavraAtual.meanings.isEmpty()) {
+            definicao = palavraAtual.meanings.get(0).definitions.get(0).definition;
         }
 
-        if (favoritoStorage.isSalvo(palavraAtual.palavra)) {
-            favoritoStorage.remover(palavraAtual.palavra);
+        String fonetica = "";
+        if (palavraAtual.phonetic != null) {
+            fonetica = palavraAtual.phonetic;
+        } else if (palavraAtual.phonetics != null && !palavraAtual.phonetics.isEmpty()
+                && palavraAtual.phonetics.get(0).text != null) {
+            fonetica = palavraAtual.phonetics.get(0).text;
+        }
+
+        if (favoritoStorage.isSalvo(palavraAtual.word)) {
+            favoritoStorage.remover(palavraAtual.word);
             btnFavorito.setText("♡  Save");
         } else {
             FavoritoLocal fav = new FavoritoLocal(
-                palavraAtual.palavra, definicao,
-                palavraAtual.fonetica != null ? palavraAtual.fonetica : ""
+                palavraAtual.word, definicao, fonetica
             );
             favoritoStorage.salvar(fav);
             btnFavorito.setText("♥  Saved");
@@ -143,11 +161,45 @@ public class SearchActivity extends AppCompatActivity {
     public void onShareClick(View view) {
         if (palavraAtual == null) return;
 
-        String texto = "📖 " + palavraAtual.palavra + " — " + tvDefinicao.getText().toString();
+        String texto = "📖 " + palavraAtual.word + " — " + tvDefinicao.getText().toString();
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("text/plain");
         share.putExtra(Intent.EXTRA_TEXT, texto + "\n\nby YAS — Your Amazing Sentences");
         startActivity(Intent.createChooser(share, "Compartilhar"));
+    }
+
+    public void onListenClick(View view) {
+        if (palavraAtual == null) return;
+
+        String audioUrl = null;
+        if (palavraAtual.phonetics != null) {
+            for (PalavraResponse.PhoneticInfo p : palavraAtual.phonetics) {
+                if (p.audio != null && !p.audio.isEmpty()) {
+                    audioUrl = p.audio;
+                    break;
+                }
+            }
+        }
+
+        if (audioUrl != null) {
+            MediaPlayer mediaPlayer = new MediaPlayer();
+            try {
+                mediaPlayer.setDataSource(audioUrl);
+                mediaPlayer.prepareAsync();
+                mediaPlayer.setOnPreparedListener(mp -> mp.start());
+                mediaPlayer.setOnCompletionListener(mp -> mp.release());
+                mediaPlayer.setOnErrorListener((mp, what, extra) -> {
+                    Toast.makeText(this, "Erro ao tocar áudio", Toast.LENGTH_SHORT).show();
+                    mp.release();
+                    return true;
+                });
+                Toast.makeText(this, "🔊 " + palavraAtual.word, Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Toast.makeText(this, "Erro: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, "Áudio não disponível para esta palavra", Toast.LENGTH_SHORT).show();
+        }
     }
 
     // ── Bottom Nav ──
