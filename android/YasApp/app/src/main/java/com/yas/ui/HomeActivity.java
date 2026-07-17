@@ -21,6 +21,7 @@ import com.yas.model.PalavraResponse;
 import com.yas.model.PtWordResponse;
 import com.yas.util.LanguageManager;
 import com.yas.util.WordOfTheDay;
+import com.yas.util.YasConfig;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -229,40 +230,26 @@ public class HomeActivity extends AppCompatActivity {
     // ── Action Buttons ──
 
     public void onListenClick(View view) {
-        if (palavraAtual == null) {
-            // PT não tem áudio
-            Toast.makeText(this, "Áudio não disponível para português", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        String palavra = tvPalavra.getText().toString();
+        if (palavra.isEmpty()) return;
 
-        String audioUrl = null;
-        if (palavraAtual.phonetics != null) {
-            for (PalavraResponse.PhoneticInfo p : palavraAtual.phonetics) {
-                if (p.audio != null && !p.audio.isEmpty()) {
-                    audioUrl = p.audio;
-                    break;
-                }
-            }
-        }
+        String lang = languageManager.isEN() ? "en" : "pt";
+        String audioUrl = YasConfig.getTtsUrl(palavra, lang);
 
-        if (audioUrl != null) {
-            MediaPlayer mediaPlayer = new MediaPlayer();
-            try {
-                mediaPlayer.setDataSource(audioUrl);
-                mediaPlayer.prepareAsync();
-                mediaPlayer.setOnPreparedListener(mp -> mp.start());
-                mediaPlayer.setOnCompletionListener(mp -> mp.release());
-                mediaPlayer.setOnErrorListener((mp, what, extra) -> {
-                    Toast.makeText(this, "Erro ao tocar áudio", Toast.LENGTH_SHORT).show();
-                    mp.release();
-                    return true;
-                });
-                Toast.makeText(this, "🔊 " + palavraAtual.word, Toast.LENGTH_SHORT).show();
-            } catch (Exception e) {
-                Toast.makeText(this, "Erro: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            Toast.makeText(this, "Áudio não disponível", Toast.LENGTH_SHORT).show();
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        try {
+            mediaPlayer.setDataSource(audioUrl);
+            mediaPlayer.prepareAsync();
+            mediaPlayer.setOnPreparedListener(mp -> mp.start());
+            mediaPlayer.setOnCompletionListener(mp -> mp.release());
+            mediaPlayer.setOnErrorListener((mp, what, extra) -> {
+                Toast.makeText(this, "Erro ao tocar áudio", Toast.LENGTH_SHORT).show();
+                mp.release();
+                return true;
+            });
+            Toast.makeText(this, "🔊 " + palavra, Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(this, "Erro: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 

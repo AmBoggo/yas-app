@@ -13,11 +13,13 @@ from datetime import date
 
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
 from service import (
     buscar_palavra_do_dia,
     buscar,
+    gerar_audio,
     get_favoritos,
     add_favorito,
     delete_favorito,
@@ -80,6 +82,16 @@ async def buscar_palavra(q: str = Query(..., min_length=1, description="Palavra 
             detail=f"Palavra '{q}' não encontrada",
         )
     return resultado
+
+
+@app.get("/api/tts")
+async def text_to_speech(
+    texto: str = Query(..., min_length=1, description="Texto a ser lido"),
+    lang: str = Query("en", description="Idioma: en ou pt"),
+):
+    """Gera áudio MP3 do texto usando edge-tts."""
+    caminho = await gerar_audio(texto, lang)
+    return FileResponse(caminho, media_type="audio/mpeg")
 
 
 @app.get("/api/favoritos")

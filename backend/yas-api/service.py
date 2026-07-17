@@ -11,7 +11,31 @@ import httpx
 from palavras import palavra_do_dia
 from models import listar_favoritos, adicionar_favorito, remover_favorito, registrar_visualizacao
 
+import os
+import tempfile
+
+import edge_tts
+import httpx
+
 DICTIONARY_API_URL = "https://api.dictionaryapi.dev/api/v2/entries/en"
+
+# Mapas de idioma -> voz do edge-tts
+VOZES = {
+    "pt": "pt-BR-FranciscaNeural",
+    "en": "en-US-JennyNeural",
+}
+
+
+async def gerar_audio(texto: str, lang: str = "en") -> str:
+    """Gera um arquivo MP3 com edge-tts e retorna o caminho."""
+    voz = VOZES.get(lang, "en-US-JennyNeural")
+    arquivo = os.path.join(tempfile.gettempdir(), f"yas_tts_{abs(hash(texto + lang))}.mp3")
+
+    if not os.path.exists(arquivo):
+        comunicacao = edge_tts.Communicate(texto, voz)
+        await comunicacao.save(arquivo)
+
+    return arquivo
 
 
 async def buscar_palavra_do_dia(hoje: date | None = None) -> dict:
