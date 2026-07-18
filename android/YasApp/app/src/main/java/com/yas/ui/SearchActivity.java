@@ -183,18 +183,23 @@ public class SearchActivity extends AppCompatActivity {
                     PtWordResponse pt = response.body().get(0);
                     exibirResultadoPT(pt, palavra);
                 } else {
-                    tvNotFound.setText("Palavra não encontrada: \"" + palavra + "\"");
-                    tvNotFound.setVisibility(View.VISIBLE);
+                    mostrarErro("Palavra não encontrada: \"" + palavra + "\"");
                 }
             }
 
             @Override
             public void onFailure(Call<List<PtWordResponse>> call, Throwable t) {
                 tvLoading.setVisibility(View.GONE);
-                tvNotFound.setText("Erro de conexão: " + t.getMessage());
-                tvNotFound.setVisibility(View.VISIBLE);
+                mostrarErro("Erro de conexão: " + t.getMessage());
             }
         });
+    }
+
+    /** Mostra mensagem de erro de forma visível (não só Toast). */
+    private void mostrarErro(String msg) {
+        tvNotFound.setText(msg);
+        tvNotFound.setVisibility(View.VISIBLE);
+        cardResultado.setVisibility(View.GONE);
     }
 
     private void exibirResultadoPT(PtWordResponse pt, String palavra) {

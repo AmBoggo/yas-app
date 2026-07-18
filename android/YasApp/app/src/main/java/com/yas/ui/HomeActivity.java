@@ -171,14 +171,15 @@ public class HomeActivity extends AppCompatActivity {
                     PtWordResponse pt = response.body().get(0);
                     exibirPalavraPT(pt, palavra);
                 } else {
-                    Toast.makeText(HomeActivity.this, "Palavra não encontrada", Toast.LENGTH_SHORT).show();
+                    // Palavra não encontrada na API → mostra só a palavra
+                    exibirPalavraPTSemDefinicao(palavra, "Definição não encontrada. Tente outra palavra.");
                 }
             }
 
             @Override
             public void onFailure(Call<List<PtWordResponse>> call, Throwable t) {
                 tvLoading.setVisibility(View.GONE);
-                Toast.makeText(HomeActivity.this, "Sem conexão: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                exibirPalavraPTSemDefinicao(palavra, "Sem conexão com o dicionário.");
             }
         });
     }
@@ -193,6 +194,24 @@ public class HomeActivity extends AppCompatActivity {
         tvDefinicao.setText(definicoes);
         tvExemplo.setVisibility(View.GONE);
 
+        cardPalavra.setVisibility(View.VISIBLE);
+        tvLoading.setVisibility(View.GONE);
+
+        if (favoritoStorage.isSalvo(palavra)) {
+            btnFavorito.setText("♥  Saved");
+        } else {
+            btnFavorito.setText("♡  Save");
+        }
+    }
+
+    /** Mostra a palavra mesmo sem definição (evita tela vazia). */
+    private void exibirPalavraPTSemDefinicao(String palavra, String mensagem) {
+        palavraAtual = null;
+        tvPalavra.setText(palavra);
+        tvFonetica.setText("");
+        tvFonetica.setVisibility(View.GONE);
+        tvDefinicao.setText(mensagem);
+        tvExemplo.setVisibility(View.GONE);
         cardPalavra.setVisibility(View.VISIBLE);
         tvLoading.setVisibility(View.GONE);
 

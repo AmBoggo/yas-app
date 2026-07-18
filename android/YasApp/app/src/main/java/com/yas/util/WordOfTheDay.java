@@ -29,26 +29,25 @@ public class WordOfTheDay {
         "Docile", "Stoic", "Blunt", "Whimsy", "Stellar"
     };
 
-    // ── 100 palavras em português ──
+    // ── 100 palavras em português (validadas no Dicionário Aberto) ──
     private static final String[] WORDS_PT = {
-        "Saudade", "Serenidade", "Resiliência", "Altruísmo", "Empatia",
-        "Labareda", "Crepúsculo", "Borbulhar", "Sussurro", "Deslumbrante",
-        "Plenitude", "Efervescência", "Minguante", "Fulgor", "Orvalho",
-        "Ventania", "Tempestade", "Balanço", "Despertar", "Encanto",
-        "Afeto", "Sublime", "Profundo", "Singelo", "Exuberante",
-        "Mansidão", "Ternura", "Vivacidade", "Lentidão", "Presságio",
-        "Redemoinho", "Montanha", "Cachoeira", "Florescer", "Amanhecer",
-        "Entardecer", "Horizonte", "Caminhada", "Descoberta", "Aventura",
-        "Coragem", "Sabedoria", "Humildade", "Gratidão", "Esperança",
-        "Acolhimento", "Liberdade", "Justiça", "Lealdade", "Amizade",
-        "Paciência", "Silêncio", "Abraço", "Sorriso", "Olhar",
-        "Lembrança", "Destino", "Sonho", "Vontade", "Propósito",
-        "Harmonia", "Equilíbrio", "Sutileza", "Delicadeza", "Beleza",
-        "Grandeza", "Nobreza", "Fortaleza", "Leveza", "Confiança",
-        "Cumplicidade", "Sinceridade", "Simplicidade", "Bondade", "Caridade",
+        "Saudade", "Serenidade", "Altruísmo", "Crepúsculo", "Borbulhar",
+        "Sussurro", "Deslumbrante", "Plenitude", "Efervescência", "Minguante",
+        "Fulgor", "Orvalho", "Ventania", "Tempestade", "Despertar",
+        "Encanto", "Afeto", "Sublime", "Profundo", "Singelo",
+        "Exuberante", "Mansidão", "Ternura", "Vivacidade", "Lentidão",
+        "Presságio", "Redemoinho", "Montanha", "Cachoeira", "Florescer",
+        "Amanhecer", "Entardecer", "Horizonte", "Caminhada", "Descoberta",
+        "Aventura", "Coragem", "Sabedoria", "Humildade", "Gratidão",
+        "Esperança", "Acolhimento", "Liberdade", "Justiça", "Lealdade",
+        "Amizade", "Paciência", "Silêncio", "Abraço", "Sorriso",
+        "Olhar", "Lembrança", "Destino", "Sonho", "Vontade",
+        "Propósito", "Harmonia", "Equilíbrio", "Sutileza", "Delicadeza",
+        "Beleza", "Grandeza", "Nobreza", "Fortaleza", "Leveza",
+        "Confiança", "Cumplicidade", "Sinceridade", "Simplicidade", "Bondade",
         "Generosidade", "Compaixão", "Tolerância", "Compreensão", "Perdão",
         "Respeito", "Dignidade", "Verdade", "Firmeza", "Persistência",
-        "Inovação", "Criatividade", "Imaginação", "Intuição", "Inspiração",
+        "Inovação", "Imaginação", "Intuição", "Inspiração",
         "Sapiência", "Clareza", "Astúcia", "Prudência", "Ponderação"
     };
 
