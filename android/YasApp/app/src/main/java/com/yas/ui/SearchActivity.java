@@ -174,7 +174,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private void buscarPT(String palavra) {
         PtApiService api = PtRetrofitClient.getService();
-        api.buscar(palavra).enqueue(new Callback<List<PtWordResponse>>() {
+        api.buscar(palavra.toLowerCase()).enqueue(new Callback<List<PtWordResponse>>() {
             @Override
             public void onResponse(Call<List<PtWordResponse>> call, Response<List<PtWordResponse>> response) {
                 tvLoading.setVisibility(View.GONE);

@@ -36,7 +36,8 @@ import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private TextView tvPalavra, tvFonetica, tvDefinicao, tvExemplo, tvLoading, tvData, tvDiaSemana, btnFavorito, tvIdioma;
+    private TextView tvPalavra, tvFonetica, tvDefinicao, tvExemplo, tvLoading, tvData, tvDiaSemana;
+    private TextView btnFavorito, tvIdioma, tvSubtitle, tvBadge, btnListen, btnShare, navHome, navSearch, navSaved;
     private CardView cardPalavra;
     private PalavraResponse palavraAtual;
     private FavoritoStorage favoritoStorage;
@@ -56,18 +57,42 @@ public class HomeActivity extends AppCompatActivity {
         tvDiaSemana = findViewById(R.id.tvDiaSemana);
         btnFavorito = findViewById(R.id.btnFavorito);
         tvIdioma = findViewById(R.id.tvIdioma);
+        tvSubtitle = findViewById(R.id.tvSubtitle);
+        tvBadge = findViewById(R.id.tvBadge);
+        btnListen = findViewById(R.id.btnListen);
+        btnShare = findViewById(R.id.btnShare);
         cardPalavra = findViewById(R.id.cardPalavra);
+        navHome = findViewById(R.id.navHome);
+        navSearch = findViewById(R.id.navSearch);
+        navSaved = findViewById(R.id.navSaved);
         favoritoStorage = new FavoritoStorage(this);
         languageManager = new LanguageManager(this);
 
-        mostrarDataAtual();
-        atualizarBotaoIdioma();
+        atualizarIdiomaUI();
         carregarPalavraDoDia();
     }
 
+    /** Atualiza TODOS os textos da UI conforme o idioma ativo. */
+    private void atualizarIdiomaUI() {
+        boolean en = languageManager.isEN();
+        tvIdioma.setText(en ? "EN" : "PT");
+        tvSubtitle.setText(en ? "your daily word" : "palavra do dia");
+        tvBadge.setText(en ? "today's word" : "palavra de hoje");
+        tvLoading.setText(en ? "carregando..." : "carregando...");
+        btnListen.setText("🔊  " + (en ? "Listen" : "Ouvir"));
+        btnFavorito.setText("♡  " + (en ? "Save" : "Salvar"));
+        btnShare.setText("📤  " + (en ? "Share" : "Compartilhar"));
+        navHome.setText("◉  " + (en ? "Home" : "Início"));
+        navSearch.setText("⌕  " + (en ? "Search" : "Buscar"));
+        navSaved.setText("♡  " + (en ? "Saved" : "Salvos"));
+
+        mostrarDataAtual();
+    }
+
     private void mostrarDataAtual() {
-        SimpleDateFormat dataFmt = new SimpleDateFormat("MMM dd", Locale.US);
-        SimpleDateFormat diaSemanaFmt = new SimpleDateFormat("EEEE", Locale.US);
+        boolean en = languageManager.isEN();
+        SimpleDateFormat dataFmt = new SimpleDateFormat("MMM dd", en ? Locale.US : new Locale("pt", "BR"));
+        SimpleDateFormat diaSemanaFmt = new SimpleDateFormat("EEEE", en ? Locale.US : new Locale("pt", "BR"));
         Date hoje = new Date();
 
         tvData.setText(dataFmt.format(hoje));
@@ -78,12 +103,8 @@ public class HomeActivity extends AppCompatActivity {
     /** Alterna entre EN e PT. */
     public void onIdiomaClick(View view) {
         languageManager.toggle();
-        atualizarBotaoIdioma();
+        atualizarIdiomaUI();
         carregarPalavraDoDia();
-    }
-
-    private void atualizarBotaoIdioma() {
-        tvIdioma.setText(languageManager.isEN() ? "EN" : "PT");
     }
 
     private void carregarPalavraDoDia() {
@@ -109,7 +130,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onResponse(Call<List<PalavraResponse>> call, Response<List<PalavraResponse>> response) {
                 tvLoading.setVisibility(View.GONE);
                 if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
-                    palavraAtual = null; // não usar PalavraResponse para PT
+                    palavraAtual = null;
                     PalavraResponse en = response.body().get(0);
                     exibirPalavraEN(en);
                 } else {
@@ -153,9 +174,9 @@ public class HomeActivity extends AppCompatActivity {
         tvLoading.setVisibility(View.GONE);
 
         if (favoritoStorage.isSalvo(palavra.word)) {
-            btnFavorito.setText("♥  Saved");
+            btnFavorito.setText("♥  " + (languageManager.isEN() ? "Saved" : "Salvo"));
         } else {
-            btnFavorito.setText("♡  Save");
+            btnFavorito.setText("♡  " + (languageManager.isEN() ? "Save" : "Salvar"));
         }
     }
 
@@ -163,7 +184,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void buscarPT(String palavra) {
         PtApiService api = PtRetrofitClient.getService();
-        api.buscar(palavra).enqueue(new Callback<List<PtWordResponse>>() {
+        api.buscar(palavra.toLowerCase()).enqueue(new Callback<List<PtWordResponse>>() {
             @Override
             public void onResponse(Call<List<PtWordResponse>> call, Response<List<PtWordResponse>> response) {
                 tvLoading.setVisibility(View.GONE);
@@ -171,7 +192,6 @@ public class HomeActivity extends AppCompatActivity {
                     PtWordResponse pt = response.body().get(0);
                     exibirPalavraPT(pt, palavra);
                 } else {
-                    // Palavra não encontrada na API → mostra só a palavra
                     exibirPalavraPTSemDefinicao(palavra, "Definição não encontrada. Tente outra palavra.");
                 }
             }
@@ -185,26 +205,17 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void exibirPalavraPT(PtWordResponse pt, String palavra) {
-        palavraAtual = null; // PT não usa PalavraResponse
+        palavraAtual = null;
         tvPalavra.setText(palavra);
-        tvFonetica.setText(""); // Dicionário Aberto não tem fonética
-
-        // Extrair definições do XML
+        tvFonetica.setText("");
         String definicoes = extrairDefinicoesPT(pt.xml);
         tvDefinicao.setText(definicoes);
         tvExemplo.setVisibility(View.GONE);
-
         cardPalavra.setVisibility(View.VISIBLE);
         tvLoading.setVisibility(View.GONE);
-
-        if (favoritoStorage.isSalvo(palavra)) {
-            btnFavorito.setText("♥  Saved");
-        } else {
-            btnFavorito.setText("♡  Save");
-        }
+        atualizarFavoritoBtn(palavra);
     }
 
-    /** Mostra a palavra mesmo sem definição (evita tela vazia). */
     private void exibirPalavraPTSemDefinicao(String palavra, String mensagem) {
         palavraAtual = null;
         tvPalavra.setText(palavra);
@@ -214,15 +225,17 @@ public class HomeActivity extends AppCompatActivity {
         tvExemplo.setVisibility(View.GONE);
         cardPalavra.setVisibility(View.VISIBLE);
         tvLoading.setVisibility(View.GONE);
+        atualizarFavoritoBtn(palavra);
+    }
 
+    private void atualizarFavoritoBtn(String palavra) {
         if (favoritoStorage.isSalvo(palavra)) {
-            btnFavorito.setText("♥  Saved");
+            btnFavorito.setText("♥  " + (languageManager.isEN() ? "Saved" : "Salvo"));
         } else {
-            btnFavorito.setText("♡  Save");
+            btnFavorito.setText("♡  " + (languageManager.isEN() ? "Save" : "Salvar"));
         }
     }
 
-    /** Extrai o texto das tags <def> do XML do Dicionário Aberto. */
     private String extrairDefinicoesPT(String xml) {
         if (xml == null || xml.isEmpty()) return "Definição não encontrada.";
 
@@ -233,9 +246,7 @@ public class HomeActivity extends AppCompatActivity {
         int count = 0;
         while (matcher.find() && count < 3) {
             String def = matcher.group(1).trim();
-            // Remove tags internas e limpa
             def = def.replaceAll("<[^>]+>", "").trim();
-            // Remove numeração de exemplo do tipo _texto_
             def = def.replaceAll("_", "").trim();
             if (def.isEmpty()) continue;
             if (count > 0) sb.append("\n\n");
@@ -281,12 +292,12 @@ public class HomeActivity extends AppCompatActivity {
 
         if (favoritoStorage.isSalvo(palavra)) {
             favoritoStorage.remover(palavra);
-            btnFavorito.setText("♡  Save");
+            btnFavorito.setText("♡  " + (languageManager.isEN() ? "Save" : "Salvar"));
             Toast.makeText(this, "Removido dos favoritos", Toast.LENGTH_SHORT).show();
         } else {
             FavoritoLocal fav = new FavoritoLocal(palavra, definicao, fonetica);
             if (favoritoStorage.salvar(fav)) {
-                btnFavorito.setText("♥  Saved");
+                btnFavorito.setText("♥  " + (languageManager.isEN() ? "Saved" : "Salvo"));
                 Toast.makeText(this, "Palavra salva!", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "Palavra já salva", Toast.LENGTH_SHORT).show();
