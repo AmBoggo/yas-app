@@ -43,7 +43,7 @@ jobs:
       - name: 🔨 Gerar gradlew wrapper
         run: |
           cd android/YasApp
-          gradle wrapper --gradle-version 8.13 2>&1 | tail -3
+          gradle wrapper --gradle-version 9.5.0 2>&1 | tail -3
 
       - name: 🏗️ Build APK (debug)
         run: |
