@@ -2,6 +2,7 @@ package com.yas.ui;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -58,6 +59,18 @@ public class SearchActivity extends AppCompatActivity {
         cardResultado = findViewById(R.id.cardResultado);
         favoritoStorage = new FavoritoStorage(this);
         languageManager = new LanguageManager(this);
+
+        // Ajusta bottom nav para respeitar área de navegação do sistema
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            findViewById(R.id.bottomNav).setOnApplyWindowInsetsListener((v, insets) -> {
+                int navBarHeight = insets.getInsets(
+                    android.view.WindowInsets.Type.navigationBars()
+                ).bottom;
+                v.setPadding(v.getPaddingLeft(), v.getPaddingTop(),
+                    v.getPaddingRight(), navBarHeight);
+                return insets;
+            });
+        }
 
         atualizarBotaoIdioma();
         atualizarHint();
