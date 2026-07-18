@@ -13,5 +13,5 @@ public interface PtApiService {
 
     /** Busca definição em português (palavra é convertida para minúsculo). */
     @GET("word/{word}")
-    Call<List<PtWordResponse>> buscar(@Path("word", encoded=true) String palavra);
+    Call<List<PtWordResponse>> buscar(@Path("word") String palavra);
 }
